@@ -1,0 +1,35 @@
+AddDefaultCharset UTF-8
+
+Options -Indexes
+DirectoryIndex recent.html index.html
+
+<ifModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault A0
+    #ExpiresByType text/html A90
+    ExpiresByType text/css A604800
+    ExpiresByType text/javascript A604800
+    ExpiresByType application/javascript A604800
+    ExpiresByType application/x-javascript A604800
+    ExpiresByType text/xml A90
+    ExpiresByType text/plain A90
+    ExpiresByType image/gif A29030400
+    ExpiresByType image/jpg A29030400
+    ExpiresByType image/jpeg A29030400
+    ExpiresByType image/png A29030400
+    ExpiresByType image/bmp A29030400
+    ExpiresByType image/ico A29030400 
+    ExpiresByType application/x-shockwave-flash A2419200
+</ifModule>
+ 
+# Cache times;
+# 300 _ 5 Minute    3600 _ 1 Hour    86400 _ 1 DAY    259200 _ 3 DAY    604800 _ 1 WEEK    2419200 _ 1 MONTH    29030400 _ 12 MONTH
+ 
+<ifModule mod_headers.c>
+    <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$">
+        Header set Cache-Control "public"
+    </FilesMatch>
+    <FilesMatch "\.(pl|php|cgi|spl|scgi|fcgi|html?)$">
+        Header set Cache-Control "private, must-revalidate, proxy-revalidate"
+    </FilesMatch>
+</ifModule>

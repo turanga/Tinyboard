@@ -1,0 +1,101 @@
+textarea#body {
+    height: 136px;
+    width: 518px;
+}
+body {
+	background: #303030;
+	color: #000000;
+}
+a:link, a:visited, p.intro a.email span.name {
+	color: #050530;
+}
+a:link:hover {
+	color: #d00;
+}
+a.post_no {
+	color: #000000;
+}
+div.post.reply {
+	background: #404040;
+	border: 1px solid #000000;
+}
+div.post.reply.highlighted {
+	background: #202020;
+	border: 1px solid #000000;
+}
+div.post.reply p.body a {
+	color: #050530;
+}
+p.intro span.subject {
+	color: #050530;
+}
+form table tr th {
+	background: #606060;
+}
+div.ban h2 {
+	background: #504040;
+	color: inherit;
+}
+div.ban {
+	border-color: #808080;
+	background: #404040;
+}
+div.ban p {
+	color: black;
+}
+div.pages {
+	background: #404040;
+	border-color: #000000;
+}
+div.pages a.selected {
+	color: #101010;
+}
+hr {
+	border-color: #000000;
+}
+div.boardlist {
+	color: #a0a0a0;
+}
+div.boardlist a {
+	color: #808080;
+}
+table.modlog tr th {
+	background: #606060;
+}
+input, textarea {
+	background: #603030;
+	border: 1px solid #a9a9a9;
+}
+div.banner {
+	background-color: #804040;
+}
+div.banner, div.banner a {
+	color: #000000;
+}
+div.title, h1 {
+	color: #B03030;
+}
+h2 {
+	color: #B03030;
+}
+div.blotter {
+	color: #D03030;
+}
+.category {
+	background: #603030;
+	color: black;
+	border-color: #a9a9a9;
+}
+#maintable {
+	background: #404040;
+}
+#announcement {
+	background: #404040;
+	color: #D03030;
+}
+#post_wrap {
+	background: #404040;
+}
+#post_body {
+	background: #303030;
+}

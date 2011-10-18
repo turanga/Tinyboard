@@ -1,0 +1,80 @@
+textarea#body {
+    height: 136px;
+    width: 518px;
+}
+html, body{ font-size:11pt;  background:#000;  color:#32ff00;  font-family:monospace}
+a{ background:inherit;  color:#bfffaf;  text-decoration:none}
+a:visited{ background:inherit;  color:#a6dd98;  text-decoration:none}
+a:hover{ color:#000;  background:#32ff00;  text-decoration:underline}
+a:active{ color:#d2ffcb;  background:inherit;  text-decoration:underline}
+
+input{ background:#000;  color:#32ff00;  border:1px solid #32ff00 }
+
+.submit input{ background:#000;  color:#32ff00;  border:1px solid #32ff00 }
+
+textarea{ background:#000;  color:#32ff00;  border:1px solid #32ff00 }
+
+select{ background:#000;  color:#32ff00;  border:1px solid #32ff00 }
+
+.adminbar{ text-align:right;  background:inherit;  clear:both;  float:right;  font-size:11pt}
+.logo{ clear:both;  text-align:center;  background:inherit;  font-size:22pt;  color:#32ff00;  width:100%}
+.theader{ background:#000;  color:#32ff00;  width:100%}
+.postarea{ background:inherit}
+
+.rules{ font-size:10px}
+.rules li{margin-left:5em}
+.reflink a{color:inherit}
+.reflink a:hover{color:inherit; font-weight:bold; text-decoration:none}
+form table tr th, .postblock{        background:#000;         font-weight:800; border:1px dashed #32ff00}
+.footer{        text-align:center;         font-size:10px}
+.passvalid{background:#000; text-align:center; width:100%; color:#32ff00}
+.dellist{background:inherit; text-align:center}
+.delbuttons{background:inherit; text-align:center; padding-bottom:4px}
+.managehead{background:#000; color:#32ff00; font-size:12px; padding:0px}
+.postlists{background:#000; width:100%; padding:0px; color:#32ff00}
+.row1{background:#000; color:#32ff00; font-size:11px}
+.row2{background:#000; color:#32ff00;         font-size:11px}
+.unkfunc{background:inherit; color:#32ff00}
+.filesize{font-size:11px; padding-left:3em}
+.filesize a{text-decoration:underline}
+
+.filetitle{background:inherit; font-size:16px; color:#32ff00; font-weight:800}
+.postername{background:inherit; color:#32df00; font-weight:bold}
+.postername a{font-family:inherit}
+.oldpost{        background:inherit;         font-size:16px;         color:#32ff00;         font-weight:800}
+.omittedposts{        background:inherit;         font-size:16px;         color:#32ff00;         font-weight:800}
+
+div.post.reply, .reply{background:#000;         color:#32ff00; border:2px dashed #32ff00}
+.reply a{font-family:inherit}
+
+.doubledash{ vertical-align:top; clear:both; float:left}
+.replytitle{        background:inherit;         font-size:16px;         color:#32ff00;         font-weight:800}
+.commentpostername{        background:inherit;         font-size:11px;         color:#32df00;         font-weight:800}
+.thumbnailmsg{background:inherit; font-size:9px;         color:#32ff00}
+
+.highlight{background:#000; border:3px dashed #32ff00}
+
+.highlight a{font-family:inherit}
+
+#watchedthreads{background-color:#000 !important;   border:1px dashed #32ff00 !important}
+
+.replymode{background:#000; text-align:center; padding:2px;         color:#32ff00; width:100%; font-weight:bold; border:1px dashed #32ff00}
+.catalogmode{background:#000; text-align:center; padding:2px;         color:#32ff00; width:100%; font-weight:bold}
+
+.postertrip{color:#32ff00}
+
+.hidethread{background:transparent url('./icons/green/icons.gif') -32px -16px no-repeat}
+
+.unhidethread{background:transparent url('./icons/green/icons.gif') -48px 0px no-repeat}
+
+.watchthread{background:transparent url('./icons/green/icons.gif') -32px 0px no-repeat}
+
+.expandthread{background:transparent url('./icons/green/icons.gif') 0px -16px no-repeat}
+
+.quickreply{background:transparent url('./icons/green/icons.gif') 0px 0px no-repeat}
+
+.hidewatchedthreads{background:transparent url('./icons/green/icons.gif') -48px -16px no-repeat}
+
+.refreshwatchedthreads{background:transparent url('./icons/green/icons.gif') -16px -16px no-repeat}
+
+.restorewatchedthreads{background:transparent url('./icons/green/icons.gif') -16px 0px no-repeat}
