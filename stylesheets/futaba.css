@@ -1,3 +1,7 @@
+textarea#body {
+    height: 136px;
+    width: 518px;
+}
 body {
 	background: #ffe;
 	color: #800000;

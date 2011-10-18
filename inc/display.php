@@ -122,7 +122,7 @@
 		$body = substr($body, 0, $len);
 		
 		// Re-escape the characters.
-		return '<em>' . utf8tohtml($body) . ($strlen > $len ? '&hellip;' : '') . '</em>';
+		return utf8tohtml($body) . ($strlen > $len ? '&hellip;' : '');
 	}
 	
 	function capcode($cap) {
@@ -195,7 +195,7 @@
 	}
 	
 	class Post {
-		public function __construct($id, $thread, $subject, $email, $name, $trip, $capcode, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $embed, $root=null, $mod=false) {
+		public function __construct($id, $thread, $subject, $email, $name, $trip, $capcode, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $embed, $recommend , $root=null, $mod=false) {
 			global $config;
 			if(!isset($root)) $root = &$config['root'];
 			
@@ -220,6 +220,7 @@
 			$this->embed = $embed;
 			$this->root = $root;
 			$this->mod = $mod;
+			$this->recommend = $recommend;
 			
 			if($this->mod)
 				// Fix internal links
@@ -261,7 +262,16 @@
 				// Delete file (keep post)
 				if(!empty($this->file) && hasPermission($config['mod']['deletefile'], $board['uri'], $this->mod))
 					$built .= ' <a title="Remove file" href="?/' . $board['uri'] . '/deletefile/' . $this->id . '">' . $config['mod']['link_deletefile'] . '</a>';
-				
+
+				//recommend
+				if(hasPermission($config['mod']['recommend'], $board['uri'], $this->mod))
+					if($this->recommend)
+						$built .= ' <a title="Unrecommend a picture" href="?/' . $board['uri'] . '/unrecommend/' . $this->id . '">' . $config['mod']['link_unrecommend'] . '</a>';
+					else
+						$built .= ' <a title="Recommend a picture" href="?/' . $board['uri'] . '/recommend/' . $this->id . '">' . $config['mod']['link_recommend'] . '</a>';
+
+
+
 				if(!empty($built))
 					$built = '<span class="controls">' . $built . '</span>';
 			}
@@ -276,7 +286,7 @@
 	};
 	
 	class Thread {
-		public function __construct($id, $subject, $email, $name, $trip, $capcode, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $sticky, $locked, $bumplocked, $embed, $root=null, $mod=false, $hr=true) {
+		public function __construct($id, $subject, $email, $name, $trip, $capcode, $body, $time, $thumb, $thumbx, $thumby, $file, $filex, $filey, $filesize, $filename, $ip, $sticky, $locked, $bumplocked, $embed, $recommend, $root=null, $mod=false, $hr=true) {
 			global $config;
 			if(!isset($root)) $root = &$config['root'];
 			
@@ -302,6 +312,7 @@
 			$this->ip = $ip;
 			$this->sticky = $sticky;
 			$this->locked = $locked;
+			$this->recommend = $recommend;
 			$this->bumplocked = $bumplocked;
 			$this->embed = $embed;
 			$this->root = $root;
@@ -371,6 +382,15 @@
 					else
 						$built .= ' <a title="Lock thread" href="?/' . $board['uri'] . '/lock/' . $this->id . '">' . $config['mod']['link_lock'] . '</a>';
 				
+
+				//recommend
+				if(hasPermission($config['mod']['recommend'], $board['uri'], $this->mod))
+					if($this->recommend)
+						$built .= ' <a title="Unrecommend a picture" href="?/' . $board['uri'] . '/unrecommend/' . $this->id . '">' . $config['mod']['link_unrecommend'] . '</a>';
+					else
+						$built .= ' <a title="Recommend a picture" href="?/' . $board['uri'] . '/recommend/' . $this->id . '">' . $config['mod']['link_recommend'] . '</a>';
+
+
 				if(!empty($built))
 					$built = '<span class="controls op">' . $built . '</span>';
 			}

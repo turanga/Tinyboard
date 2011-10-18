@@ -585,7 +585,7 @@
 	
 	function post($post, $OP) {
 		global $pdo, $board;
-		$query = prepare(sprintf("INSERT INTO `posts_%s` VALUES ( NULL, :thread, :subject, :email, :name, :trip, :capcode, :body, :time, :time, :thumb, :thumbwidth, :thumbheight, :file, :width, :height, :filesize, :filename, :filehash, :password, :ip, :sticky, :locked, 0, :embed)", $board['uri']));
+		$query = prepare(sprintf("INSERT INTO `posts_%s` VALUES ( NULL, :thread, :subject, :email, :name, :trip, :capcode, :body, :time, :time, :thumb, :thumbwidth, :thumbheight, :file, :width, :height, :filesize, :filename, :filehash, :password, :ip, :sticky, :locked, 0, :embed, 0)", $board['uri']));
 		
 		// Basic stuff
 		$query->bindValue(':subject', $post['subject']);
@@ -782,7 +782,7 @@
 				}
 			}
 			
-			$thread = new Thread($th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['capcode'], $th['body'], $th['time'], $th['thumb'], $th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename'], $th['ip'], $th['sticky'], $th['locked'], $th['sage'], $th['embed'], $mod ? '?/' : $config['root'], $mod);
+			$thread = new Thread($th['id'], $th['subject'], $th['email'], $th['name'], $th['trip'], $th['capcode'], $th['body'], $th['time'], $th['thumb'], $th['thumbwidth'], $th['thumbheight'], $th['file'], $th['filewidth'], $th['fileheight'], $th['filesize'], $th['filename'], $th['ip'], $th['sticky'], $th['locked'], $th['sage'], $th['embed'], $th['recommend'], $mod ? '?/' : $config['root'], $mod);
 			
 			$posts = prepare(sprintf("SELECT * FROM `posts_%s` WHERE `thread` = :id ORDER BY `id` DESC LIMIT :limit", $board['uri']));
 			$posts->bindValue(':id', $th['id']);
@@ -794,7 +794,7 @@
 				if($po['file'])
 					$num_images++;
 				
-				$thread->add(new Post($po['id'], $th['id'], $po['subject'], $po['email'], $po['name'], $po['trip'], $po['capcode'], $po['body'], $po['time'], $po['thumb'], $po['thumbwidth'], $po['thumbheight'], $po['file'], $po['filewidth'], $po['fileheight'], $po['filesize'], $po['filename'], $po['ip'], $po['embed'], $mod ? '?/' : $config['root'], $mod));
+				$thread->add(new Post($po['id'], $th['id'], $po['subject'], $po['email'], $po['name'], $po['trip'], $po['capcode'], $po['body'], $po['time'], $po['thumb'], $po['thumbwidth'], $po['thumbheight'], $po['file'], $po['filewidth'], $po['fileheight'], $po['filesize'], $po['filename'], $po['ip'], $po['embed'], $po['recommend'], $mod ? '?/' : $config['root'], $mod));
 			}
 			
 			if($posts->rowCount() == ($th['sticky'] ? $config['threads_preview_sticky'] : $config['threads_preview'])) {
@@ -1238,6 +1238,15 @@
 			$body = preg_replace("/'''(.+?)'''/m", "<strong>$1</strong>", $body);
 			$body = preg_replace("/''(.+?)''/m", "<em>$1</em>", $body);
 			$body = preg_replace("/\*\*(.+?)\*\*/m", "<span class=\"spoiler\">$1</span>", $body);
+			$body = preg_replace("/\%\%(.+?)\%\%/m", "<span class=\"spoiler\">$1</span>", $body);
+			$body = preg_replace("/\[spoiler\](.+?)\[\/spoiler\]/m", "<span class=\"spoiler\">$1</span>", $body);
+			$body = preg_replace("/\*\*(.+?)\*\*/m", "<strong>$1</strong>", $body);
+			$body = preg_replace("/\*(.+?)\*/m", "<em>$1</em>", $body);
+			$body = preg_replace("/\[b\](.+?)\[\/b\]/m", "<strong>$1</strong>", $body);
+			$body = preg_replace("/\[i\](.+?)\[\/i\]/m", "<em>$1</em>", $body);
+			$body = preg_replace("/\[s\](.+?)\[\/s\]/m", "<s>$1</s>", $body);
+			$body = preg_replace("/\[u\](.+?)\[\/u\]/m", "<u>$1</u>", $body);
+			$body = preg_replace("/\[code\](.+?)\[\/code\]/m", "<code>$1</code>", $body);
 		}
 		
 		if($config['markup_urls']) {
@@ -1400,9 +1409,9 @@
 		
 		while($post = $query->fetch()) {
 			if(!isset($thread)) {
-				$thread = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['sage'], $post['embed'], $mod ? '?/' : $config['root'], $mod);
+				$thread = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['sage'], $post['embed'],  $post['recommend'],  $mod ? '?/' : $config['root'], $mod);
 			} else {
-				$thread->add(new Post($post['id'], $thread->id, $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['embed'], $mod ? '?/' : $config['root'], $mod));
+				$thread->add(new Post($post['id'], $thread->id, $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['embed'], $post['recommend'], $mod ? '?/' : $config['root'], $mod));
 			}
 		}
 		

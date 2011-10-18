@@ -959,9 +959,9 @@
 					$temp = '';
 					while($post = $query->fetch()) {
 						if(!$post['thread']) {
-							$po = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['sage'], $post['embed'], '?/', $mod, false);
+							$po = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['sage'], $post['embed'], $post['recommend'], '?/', $mod, false);
 						} else {
-							$po = new Post($post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['embed'], '?/', $mod);
+							$po = new Post($post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['embed'],  $post['recommend'], '?/', $mod);
 						}
 						$temp .= $po->build(true) . '<hr/>';
 					}
@@ -1318,9 +1318,9 @@
 				openBoard($report['uri']);
 				
 				if(!$post['thread']) {
-					$po = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['sage'], $post['embed'], '?/', $mod, false);
+					$po = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['sage'], $post['embed'],  $post['recommend'], '?/', $mod, false);
 				} else {
-					$po = new Post($post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['embed'], '?/', $mod);
+					$po = new Post($post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['embed'],  $post['recommend'], '?/', $mod);
 				}
 				
 				$append_html =
@@ -1866,6 +1866,33 @@
 			
 			// Redirect
 			header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
+			} elseif(preg_match('/^\/' . $regex['board'] . '(un)?recommend\/(\d+)$/', $query, $matches)) {
+			if(!hasPermission($config['mod']['recommend'])) error($config['error']['noaccess']);
+			// Recommend file from post
+			$boardName = &$matches[1];
+			$post = &$matches[3];
+			// Open board
+			if(!openBoard($boardName))
+			    error($config['error']['noboard']);
+
+			$query = prepare(sprintf("UPDATE `posts_%s` SET `recommend` = :recommend WHERE `id` = :id", $board['uri']));
+			$query->bindValue(':id', $post, PDO::PARAM_INT);
+			if($matches[2] == 'un') {
+			// Record the action
+			modLog("Unrecommend file from post #{$post}");
+			$query->bindValue(':recommend', 0, PDO::PARAM_INT);
+			    } else {
+			// Record the action
+			 modLog("Recommend file from post #{$post}");
+			$query->bindValue(':recommend', 1, PDO::PARAM_INT);
+				    }
+			$query->execute() or error(db_error($query));
+
+			// Rebuild board
+			buildIndex();
+
+			// Redirect
+			header('Location: ?/' . sprintf($config['board_path'], $boardName) . $config['file_index'], true, $config['redirect_http']);
 		} elseif(preg_match('/^\/' . $regex['board'] . 'delete\/(\d+)$/', $query, $matches)) {
 			// Delete post
 			
@@ -2249,9 +2276,9 @@
 				
 					while($post = $query->fetch()) {
 						if(!$post['thread']) {
-							$po = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['sage'], $post['embed'], '?/', $mod, false);
+							$po = new Thread($post['id'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'], $post['sticky'], $post['locked'], $post['sage'], $post['embed'], $post['recommend'], '?/', $mod, false);
 						} else {
-							$po = new Post($post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'],  $post['embed'], '?/', $mod);
+							$po = new Post($post['id'], $post['thread'], $post['subject'], $post['email'], $post['name'], $post['trip'], $post['capcode'], $post['body'], $post['time'], $post['thumb'], $post['thumbwidth'], $post['thumbheight'], $post['file'], $post['filewidth'], $post['fileheight'], $post['filesize'], $post['filename'], $post['ip'],  $post['embed'],  $post['recommend'], '?/', $mod);
 						}
 						$temp .= $po->build(true) . '<hr/>';
 					}

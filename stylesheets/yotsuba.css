@@ -1,3 +1,7 @@
+textarea#body {
+    height: 136px;
+    width: 518px;
+}
 body {
 	background: #ffe url('img/fade-yotsuba.png') repeat-x 50% 0%;
 	color: #800000;

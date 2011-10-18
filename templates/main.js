@@ -187,6 +187,10 @@ function init()
 		highlightReply(window.location.hash.substring(1));
 	
 	{% endraw %}{% if config.inline_expanding %}{% raw %}init_expanding();{% endraw %}{% endif %}{% raw %}
+//	init1(); // extention script
+	doScript();
+        recaptchaclick=document.getElementsByClassName('recaptcha_image_cell')[0]; // reload captcha when clicks on it
+        if(!(recaptchaclick===undefined))recaptchaclick.onclick=Recaptcha.reload;
 }
 
 var RecaptchaOptions = {
